@@ -1,5 +1,7 @@
 import graphene
 from graphene_django import DjangoObjectType
+import graphql_jwt
+from graphql_jwt.decorators import login_required
 from django.contrib.auth.models import User
 from blog.schema import BlogQuery, BlogMutation, PostMutation, PostQuery, CommentQuery
 
@@ -7,7 +9,7 @@ from blog.schema import BlogQuery, BlogMutation, PostMutation, PostQuery, Commen
 class UserType(DjangoObjectType):
     class Meta:
         model = User
-        fields = "__all__"
+        exclude = ['password']
 
 # Define an input class for User creation
 class UserInput(graphene.InputObjectType):
@@ -32,9 +34,11 @@ class Query(BlogQuery, PostQuery, CommentQuery, graphene.ObjectType):
     user = graphene.Field(UserType, id=graphene.Int(),
                           username=graphene.String())
 
+    @login_required
     def resolve_users(self, info):
         return User.objects.all()
-
+    
+    @login_required
     def resolve_user(self, info, id=None, username=None):
         if username:
             return User.objects.get(username=username)
@@ -43,6 +47,11 @@ class Query(BlogQuery, PostQuery, CommentQuery, graphene.ObjectType):
 
 class Mutation(BlogMutation, PostMutation, graphene.ObjectType):
     create_user = CreateUser.Field()
+
+    # jwt authentication mutations
+    token_auth = graphql_jwt.ObtainJSONWebToken.Field()
+    verify_token = graphql_jwt.Verify.Field()
+    refresh_token = graphql_jwt.Refresh.Field()
 
 
 schema = graphene.Schema(

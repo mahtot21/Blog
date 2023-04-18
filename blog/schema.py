@@ -153,19 +153,35 @@ class CommentQuery(graphene.ObjectType):
     def resolve_comment(self, info, id):
         return Comment.objects.get(pk=id)
 
+# a graphql mutation class for creating a comment
 class CreateComment(graphene.Mutation):
-    pass
+    comment = graphene.Field(CommentType)
+
+    class Arguments:
+        # the input arguments for the mutation
+        post = graphene.Int(required=True)
+        text = graphene.String(required=True)
+        
+
+    def mutate(self, info, post, text):
+        # the logic for creating a comment
+        user = info.context.user
+        if user.is_anonymous:
+            raise Exception("You must be logged in to create a comment.")
+        comment = Comment(post=post, text=text)
+        comment.save()
+        return CreateComment(comment=comment)
 
 
-class UpdateComment(graphene.Mutation):
-    pass
+# class UpdateComment(graphene.Mutation):
+#     pass
 
-class DeleteComment(graphene.Mutation):
-    pass
+# class DeleteComment(graphene.Mutation):
+#     pass
 
 # Define a mutation class for Comment mdoel
 class CommentMutation(graphene.ObjectType):
-    pass
+    create_comment = CreateComment.Field()
 
 # Define a mutation class for Post model
 class PostMutation(graphene.ObjectType):
