@@ -109,10 +109,10 @@ class BlogQuery(graphene.ObjectType):
     def resolve_blogs(self, info, username=None, title=None):
         # If username is given, filter by author's username
         if username:
-            return Blog.objects.filter(author__username=username)
+            return Blog.objects.filter(owner__username=username)
         # If title is given, filter by title (case insensitive)
         if title:
-            return Blog.objects.filter(title__icontains=title)
+            return Blog.objects.filter(name__icontains=title)
         # Otherwise, return all blogs
         return Blog.objects.all()
 

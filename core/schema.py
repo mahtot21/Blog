@@ -7,7 +7,7 @@ from blog.schema import BlogQuery, BlogMutation, PostMutation, PostQuery
 class UserType(DjangoObjectType):
     class Meta:
         model = User
-        fields = ("id", "username", "email")
+        fields = "__all__"
 
 # Define an input class for User creation
 class UserInput(graphene.InputObjectType):
@@ -25,19 +25,25 @@ class CreateUser(graphene.Mutation):
     def mutate(self, info, input):
         user = User.objects.create_user(**input)
         return CreateUser(user=user)
-    
+
+
 class Query(BlogQuery, PostQuery, graphene.ObjectType):
     users = graphene.List(UserType)
-    user = graphene.Field(UserType, id=graphene.Int(required=True))
+    user = graphene.Field(UserType, id=graphene.Int(),
+                          username=graphene.String())
 
     def resolve_users(self, info):
         return User.objects.all()
 
-    def resolve_user(self, info, id):
+    def resolve_user(self, info, id=None, username=None):
+        if username:
+            return User.objects.get(username=username)
         return User.objects.get(id=id)
+
 
 class Mutation(BlogMutation, BlogQuery, graphene.ObjectType):
     create_user = CreateUser.Field()
+
 
 schema = graphene.Schema(
     query=Query,
