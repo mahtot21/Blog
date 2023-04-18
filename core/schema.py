@@ -1,7 +1,7 @@
 import graphene
 from graphene_django import DjangoObjectType
 from django.contrib.auth.models import User
-from blog.schema import BlogQuery, BlogMutation, PostMutation, PostQuery
+from blog.schema import BlogQuery, BlogMutation, PostMutation, PostQuery, CommentQuery
 
 # Define a type for User model
 class UserType(DjangoObjectType):
@@ -27,7 +27,7 @@ class CreateUser(graphene.Mutation):
         return CreateUser(user=user)
 
 
-class Query(BlogQuery, PostQuery, graphene.ObjectType):
+class Query(BlogQuery, PostQuery, CommentQuery, graphene.ObjectType):
     users = graphene.List(UserType)
     user = graphene.Field(UserType, id=graphene.Int(),
                           username=graphene.String())
@@ -41,7 +41,7 @@ class Query(BlogQuery, PostQuery, graphene.ObjectType):
         return User.objects.get(id=id)
 
 
-class Mutation(BlogMutation, BlogQuery, graphene.ObjectType):
+class Mutation(BlogMutation, PostMutation, graphene.ObjectType):
     create_user = CreateUser.Field()
 
 
