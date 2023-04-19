@@ -34,11 +34,11 @@ class Query(BlogQuery, PostQuery, CommentQuery, graphene.ObjectType):
     user = graphene.Field(UserType, id=graphene.Int(),
                           username=graphene.String())
 
-    @login_required
+    # @login_required
     def resolve_users(self, info):
         return User.objects.all()
     
-    @login_required
+    # @login_required
     def resolve_user(self, info, id=None, username=None):
         if username:
             return User.objects.get(username=username)
