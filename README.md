@@ -1,4 +1,6 @@
-## BLOGS QUERY
+## Graphql sample using django(CRUD using django and graphql) sample.
+
+### BLOGS QUERY
 
 ### get blog by id
 query GetBlogById($id: Int = 1){
