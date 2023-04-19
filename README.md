@@ -1,6 +1,6 @@
 ## BLOGS QUERY
 
-# get blog by id
+### get blog by id
 query GetBlogById($id: Int = 1){
     blog(id: $id){
         name
@@ -20,7 +20,7 @@ query GetBlogById($id: Int = 1){
     }
 }
 
-# get all blogs
+### get all blogs
 query GetAllBlogs{
     blogs{
         name
@@ -40,7 +40,7 @@ query GetAllBlogs{
     }
 }
 
-# get blogs by username only
+### get blogs by username only
 query GetBlogByUsername($username: String = "mahtot"){
     blogs(username: $username){
         name
@@ -60,7 +60,7 @@ query GetBlogByUsername($username: String = "mahtot"){
     }
 }
 
-# get blogs by there title
+### get blogs by there title
 query GetBlogByTitle($title: String = "second"){
     blogs(title: $title){
         name
@@ -80,7 +80,7 @@ query GetBlogByTitle($title: String = "second"){
     }
 }
 
-# get all blogs of one user
+### get all blogs of one user
 query GetAllBlogsOfUser($user: Int = 1){
     user(id: $user){
         username
@@ -101,7 +101,7 @@ query GetAllBlogsOfUser($user: Int = 1){
 
 ## AUTHENTICATION
 
-# get jwt token
+### get jwt token
 mutation GetToken($username: String = "mahtot", $password: String = "mahtot mkonn"){
     tokenAuth(username: $username, password: $password){
         token
@@ -109,7 +109,7 @@ mutation GetToken($username: String = "mahtot", $password: String = "mahtot mkon
     }
 }
 
-# get refereshe token
+### get refereshe token
 mutation GetRefereshToken($token: String = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1haHRvdCIsImV4cCI6MTY4MjQ5NTczMiwib3JpZ0lhdCI6MTY4MTg5MDkzMn0.k59IZ-_HjrqSmAohElmqE1LIU7f2UCRsi8Awzj5TCv8"){
     refreshToken(token: $token){
         token
@@ -118,7 +118,7 @@ mutation GetRefereshToken($token: String = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
     }
 }
 
-# get refereshe token
+### get refereshe token
 mutation VerifyToken($token: String = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1haHRvdCIsImV4cCI6MTY4MjQ5NTczMiwib3JpZ0lhdCI6MTY4MTg5MDkzMn0.k59IZ-_HjrqSmAohElmqE1LIU7f2UCRsi8Awzj5TCv8"){
     verifyToken(token: $token){
         payload
@@ -127,7 +127,7 @@ mutation VerifyToken($token: String = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1
 
 ## BLOGS MUTATION
 
-# create blog
+### create blog
 mutation CreateBlog($name: String = "my thired blog"){
     createBlog(name: $name){
         blog{
@@ -144,7 +144,7 @@ mutation CreateBlog($name: String = "my thired blog"){
     }
 }
 
-# update blog
+### update blog
 mutation UpdateBlog($id: Int = 1, $name: String = "my thired blog updateing"){
     updateBlog(name: $name, id: $id){
         blog{
@@ -162,7 +162,7 @@ mutation UpdateBlog($id: Int = 1, $name: String = "my thired blog updateing"){
     }
 }
 
-# delete blog
+### delete blog
 mutation DeleteBlogById($id: Int = 1){
     deleteBlog(id: $id){
         message
@@ -172,7 +172,7 @@ mutation DeleteBlogById($id: Int = 1){
 
 ## COMMENTS QUERY
 
-# get all comments
+### get all comments
 query GetAllComments{
     comments{
         id
@@ -192,7 +192,7 @@ query GetAllComments{
     }
 }
 
-# get all comments of one user
+### get all comments of one user
 query GetAllCommentsOfUser($id: Int = 1){
     user(id: $id){
         username
@@ -211,7 +211,7 @@ query GetAllCommentsOfUser($id: Int = 1){
     }
 }
 
-# all likers of one post
+### all likers of one post
 query GetLikersOfPost($id: Int = 2){
     post(id: $id){
         id
@@ -225,7 +225,7 @@ query GetLikersOfPost($id: Int = 2){
     }
 }
 
-# all liked posts of user
+### all liked posts of user
 query GetLikedPostsOfUser($id: Int = 1){
     user(id: $id){
         likedPosts{
@@ -236,7 +236,7 @@ query GetLikedPostsOfUser($id: Int = 1){
     }
 }
 
-# all ratters of blog
+### all ratters of blog
 query GetRatersOfBlog($id: Int = 2){
     blog(id: $id){
         name
